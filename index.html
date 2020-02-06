@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+	<div id="app">
+		<h1>{{ title }}</h1>
+		<hr>
+		<h1>Вывод разных типов данных:</h1>
+		<p>{{ myString }}</p>
+		<p>{{ myNumber }}</p>
+		<p>{{ myBool }}</p>
+		<p>{{ 14+6 }}</p>
+		<p>{{ myFunc() }}</p>
+		<hr>
+		<h1>Демонстрация динамических атрибутов</h1>
+		<div v-bind:class="currentClass" style="height: 100px; width: 100px"></div>
+		<button @click="toggleClass">Toggle Class</button>
+		<hr>
+		<h1>Способы отображения html кода, который хранится в свойстве
+render объекта data</h1>
+		<p>1 способ:</p>
+		{{ render }}
+		<p>2 способ:</p>
+		<div v-html="render"></div>
+		<hr>
+		<h1>Примеры событий</h1>
+		<p>Нажмите чтобы узнать текущее время</p>
+		<button @click="time = date.getHours() + ':' + date.getMinutes()">{{ time }}</button>
+		<p>Нажмите любую клавишу в инпуте, чтобы узнать её код</p>
+		<input type="text" @keyup="printEventKeyCode">
+		<hr>
+		<h1>Модификаторы событий и модификаторы клавиш</h1>
+		<button @click.once="printOnceMessage">Эта кнопка отработает только 1 раз</button>
+		<p><button @click.ctrl="printWithCtrlMessage">Эта кнопка отработает только с зажатой клавишей Ctrl</button></p>
+		<hr>
+		<h1>Связь элементов формы с свойствами объекта data</h1>
+		<form>
+			<p><input type="text" v-model="inputText"> Вы ввели: {{ inputText }}</p>
+			<p><textarea v-model="textArea"></textarea> Количество введенных символов: {{ textArea.length }}</p>
+			<p><input type="checkbox" v-model="checkBox"> Состояние чекбокса: {{ (checkBox == true) ? "отмечен" : "не отмечен" }}</p>
+		</form>
+		<hr>
+		<h1>Демонстрация работы с CSS классами</h1>
+		<div v-bind:class="figureType"></div>
+		<p>Выберите тип фигуры: <button @click="figureType='square'">Квадрат</button> <button @click="figureType='rectangle'">Прямоугольник</button> <button @click="figureType='circle'">Круг</button> <button @click="figureType='oval'">Овал</button> <button @click="figureType='triangle'">Триугольник</button> <button @click="figureType='pentagon'">Пятиугольник</button></p>
+	</div>	
+</body>
+<script type="text/javascript">
+		var vm = new Vue({
+			el: "#app",
+			data: {
+				render: "<p>Это мой html-код</p>",
+				title: "Мой сайт",
+				myString: "Строка",
+				myNumber: 123,
+				myBool: false,
+				currentClass: "blue",
+				date: new Date(),
+				time: "__:__",
+				inputText: "",
+				textArea: "",
+				checkBox: false,
+				figureType: "square",
+			},
+			methods: {
+				myFunc(){
+					return "Функция выполнена успешно."
+				},
+				toggleClass(){
+					this.currentClass = (this.currentClass == "blue") ? "red" : "blue";
+				},
+				printEventKeyCode(event){ alert("Код нажатой клавиши - " + event.keyCode) },
+				printOnceMessage(){ alert('Это наша последняя встреча. Прощай!') },
+				printWithCtrlMessage(){ alert('Я дружу только с клавишей Ctrl.') }
+			}
+		})
+</script>
+<style type="text/css">
+		.blue {
+			background: blue;
+		}
+		.red {
+			background: red;
+		}
+		.square {
+			width: 100px;
+			height: 100px;
+			background: red;
+		}
+		.rectangle {
+			width: 200px;
+			height: 100px;
+			background: red;
+		}
+		.circle {
+			width: 100px;
+			height: 100px;
+			background: red;
+			-moz-border-radius: 50px;
+			-webkit-border-radius: 50px;
+			border-radius: 50px;
+		}
+		.oval {
+			width: 200px;
+			height: 100px;
+			background: red;
+			-moz-border-radius: 100px / 50px;
+			-webkit-border-radius: 100px / 50px;
+			border-radius: 100px / 50px;
+		}
+		.triangle {
+			width: 0;
+			height: 0;
+			border-left: 50px solid transparent;
+			border-right: 50px solid transparent;
+			border-bottom: 100px solid red;
+		}
+		.pentagon {
+		    position: relative;
+		    width: 54px;
+		    border-width: 50px 18px 0;
+		    border-style: solid;
+		    border-color: red transparent;
+		}
+		.pentagon:before {
+		    content: "";
+		    position: absolute;
+		    height: 0;
+		    width: 0;
+		    top: -85px;
+		    left: -18px;
+		    border-width: 0 45px 35px;
+		    border-style: solid;
+		    border-color: transparent transparent red;
+		}
+</style>
+</html>
